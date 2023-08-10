@@ -1,3 +1,6 @@
 ﻿.vs/*
 IMDBDataProcessor/bin/*
 IMDBDataProcessor/obj/*
+Models/obj/*
+Tests/bin/*
+Tests/obj/*

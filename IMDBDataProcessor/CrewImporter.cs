@@ -11,5 +11,10 @@ namespace IMDBDataProcessor
         public static void Import()
         {
         }
+
+        internal static void Import(string path)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
