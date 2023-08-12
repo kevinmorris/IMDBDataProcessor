@@ -12,7 +12,8 @@ namespace Tests
         [Test]
         public void MovieJsonImportParse()
         {
-            const string json = @"[
+            const string json = @"{""@type"": ""ItemList"",
+            ""itemListElement"": [
                 {
                     ""@type"": ""ListItem"",
                     ""position"": ""9920"",
@@ -23,7 +24,7 @@ namespace Tests
                     ""position"": ""9921"",
                     ""url"": ""/title/tt3297330/""
                 }
-            ]";
+            ]}";
 
             var imdbIds = MovieImporter.Import(json);
             CollectionAssert.AreEqual(

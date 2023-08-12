@@ -4,3 +4,4 @@ IMDBDataProcessor/obj/*
 Models/obj/*
 Tests/bin/*
 Tests/obj/*
+IMDBDataProcessor/App.config
