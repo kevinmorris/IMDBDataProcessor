@@ -16,7 +16,7 @@ namespace Tests
         public void GetMovie_Fail()
         {
             var failClient = new FailRestClientWrapper();
-            var movie = TmdbApiClient.GetMovie(failClient, "tt1881109");
+            var movie = TmdbApiClient.GetMovie(failClient, "tt1881109", 0);
 
             Assert.IsNull(movie);
         }
@@ -39,7 +39,7 @@ namespace Tests
         public void GetMovie_Empty()
         {
             var emptyClient = new EmptyRestClientWrapper();
-            var movie = TmdbApiClient.GetMovie(emptyClient, "tt1881109");
+            var movie = TmdbApiClient.GetMovie(emptyClient, "tt1881109", 0);
             Assert.IsNull(movie);
         }
 

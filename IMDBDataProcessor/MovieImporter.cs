@@ -1,14 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Configuration;
+using System.Data.SqlClient;
 using System.Text;
 using System.Threading.Tasks;
+using IMDBDataProcessor.dao;
+using Models;
 using Newtonsoft.Json;
 
 namespace IMDBDataProcessor
 {
     public class MovieImporter
     {
+        private static readonly IDao<Movie, int> _dao = new MovieDao();
         public static void Import()
         {
             var assembly = Assembly.GetExecutingAssembly();
@@ -16,7 +22,11 @@ namespace IMDBDataProcessor
             using var reader = new StreamReader(stream);
             var json = reader.ReadToEnd();
             var ids = Import(json);
-            var movies = TmdbApiClient.GetMovies(ids);
+
+            foreach (var movie in TmdbApiClient.GetMovies(ids))
+            {
+                _dao.Save(movie);
+            }
         }
 
         public static List<string> Import(string json)
@@ -31,6 +41,14 @@ namespace IMDBDataProcessor
                     return urlParts[2];
                 }).ToList()
                 : new List<string>();
+        }
+
+        internal class MovieList
+        {
+            [JsonProperty("@type")]
+            public string Type { get; set; }
+            [JsonProperty("itemListElement")]
+            public List<MovieListItem> ItemListElement { get; set; }
         }
 
         internal class MovieListItem

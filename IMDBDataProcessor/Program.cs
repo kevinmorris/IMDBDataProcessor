@@ -11,7 +11,7 @@ while (input != 0)
     Console.WriteLine("3. Export Data to Flat Files");
     Console.WriteLine("0. Exit");
     Console.Write("> ");
-    Exception e;
+
     try
     {
         input = int.Parse(Console.ReadLine());
@@ -37,7 +37,7 @@ while (input != 0)
                 break;
         }
     }
-    catch (Exception _)
+    catch (Exception e)
     {
         Console.WriteLine("Invalid Selection");
     }

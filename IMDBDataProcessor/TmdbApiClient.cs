@@ -14,7 +14,7 @@ namespace IMDBDataProcessor
 {
     public class TmdbApiClient
     {
-        public static IList<Movie> GetMovies(IList<string> imdbIds)
+        public static IEnumerable<Movie> GetMovies(IList<string> imdbIds)
         {
             var options = new RestClientOptions($"https://api.themoviedb.org/3/find/")
             {
@@ -24,34 +24,43 @@ namespace IMDBDataProcessor
 
             var client = new DefaultRestClient(new RestClient(options));
 
-            return imdbIds.Take(10)
-                .Select(id => GetMovie(client, id))
-                .Where(movie => movie != null).ToList();
+            return imdbIds.Skip(2600)
+                .Select((id, i) => GetMovie(client, id, i))
+                .Where(movie => movie != null);
         }
 
-        public static Movie GetMovie(IRestClientWrapper client, string imdbId)
+        public static Movie GetMovie(IRestClientWrapper client, string imdbId, int index)
         {
             //Use RestSharp to get the movie from the TMDB API
-            var request = new RestRequest(imdbId);
-            request.AddParameter("external_source", "imdb_id");
-            var response = client.Get(request);
-
-            if (response.IsSuccessful && response.Content != null)
+            try
             {
-                var movieResponse = JsonConvert.DeserializeObject<MovieResponse>(response.Content);
-                if (movieResponse.MovieList.Count == 0)
+                var request = new RestRequest(imdbId);
+                request.AddParameter("external_source", "imdb_id");
+                var response = client.Get(request);
+
+                Console.WriteLine($"{index} {imdbId}: {response.StatusCode}");
+                if (response.IsSuccessful && response.Content != null)
                 {
-                    Console.WriteLine($"No movie found for {imdbId}");
+                    var movieResponse = JsonConvert.DeserializeObject<MovieResponse>(response.Content);
+                    if (movieResponse.MovieList.Count == 0)
+                    {
+                        Console.WriteLine($"No movie found for {imdbId}");
+                        return null;
+                    }
+
+                    var movie = movieResponse.MovieList[0];
+                    movie.ImdbId = imdbId;
+                    return movie;
+                }
+                else
+                {
+                    Console.WriteLine($"Error getting movie {imdbId}: {response.ErrorMessage}");
                     return null;
                 }
-
-                var movie = movieResponse.MovieList[0];
-                movie.ImdbId = imdbId;
-                return movie;
             }
-            else
+            catch (Exception e)
             {
-                Console.WriteLine($"Error getting movie {imdbId}: {response.ErrorMessage}");
+                Console.WriteLine($"Error getting movie {imdbId}: {e.Message}");
                 return null;
             }
         }
