@@ -5,3 +5,6 @@ Models/obj/*
 Tests/bin/*
 Tests/obj/*
 IMDBDataProcessor/App.config
+Models/bin/*
+Utils/bin/*
+Utils/obj/*
