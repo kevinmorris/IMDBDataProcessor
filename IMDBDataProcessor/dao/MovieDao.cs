@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -36,17 +37,22 @@ namespace IMDBDataProcessor.dao
             var results = cmd.ExecuteReader();
             while (results.Read())
             {
-                movies.Add(new Movie
-                {
-                    TmdbId = (int)results["tmdb_id"],
-                    ImdbId = (string)results["imdb_id"],
-                    Title = (string)results["title"],
-                    ReleaseDate = DateOnly.ParseExact((string)results["release_date"], "MM-dd-yyyy"),
-                    Popularity = (double)results["popularity"]
-                });
+                movies.Add(ExtractMovie(results));
             }
 
             return movies;
+        }
+
+        internal static Movie ExtractMovie(IDataReader results)
+        {
+            return new Movie
+            {
+                TmdbId = (int)results["tmdb_id"],
+                ImdbId = (string)results["imdb_id"],
+                Title = (string)results["title"],
+                ReleaseDate = DateOnly.ParseExact((string)results["release_date"], "MM-dd-yyyy"),
+                Popularity = (double)results["popularity"]
+            };
         }
 
         public void Save(Movie item)

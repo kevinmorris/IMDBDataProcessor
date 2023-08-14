@@ -3,5 +3,6 @@
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::BB0ED6E7-BF3E-463B-ADC6-870B52999C75::net6.0::Tests.MovieImporterTests.MovieJsonImportParse&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::BB0ED6E7-BF3E-463B-ADC6-870B52999C75::net6.0::Tests.TmdbApiClientTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::BB0ED6E7-BF3E-463B-ADC6-870B52999C75::net6.0::Tests.MovieDaoTest&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

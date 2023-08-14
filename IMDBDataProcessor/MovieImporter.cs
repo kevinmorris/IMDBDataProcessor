@@ -4,12 +4,14 @@ using System.Linq;
 using System.Reflection;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using IMDBDataProcessor.dao;
 using Models;
 using Newtonsoft.Json;
 
+[assembly: InternalsVisibleTo("Tests")]
 namespace IMDBDataProcessor
 {
     public class MovieImporter
@@ -29,7 +31,7 @@ namespace IMDBDataProcessor
             }
         }
 
-        public static List<string> Import(string json)
+        internal static List<string> Import(string json)
         {
             var list = JsonConvert.DeserializeObject<MovieList>(json);
             return list is { ItemListElement: not null } 
