@@ -24,7 +24,7 @@ namespace IMDBDataProcessor
 
             var client = new DefaultRestClient(new RestClient(options));
 
-            return imdbIds.Skip(2600)
+            return imdbIds
                 .Select((id, i) => GetMovie(client, id, i))
                 .Where(movie => movie != null);
         }
