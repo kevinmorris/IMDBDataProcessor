@@ -19,11 +19,11 @@ namespace IMDBDataProcessor
             var sb = new StringBuilder();
             foreach (var movie in movies)
             {
-                var padTmdbId = movie.TmdbId.ToString().PadRight(6);
+                var padTmdbId = movie.TmdbId.ToString().PadRight(5);
                 var padImdbId = movie.ImdbId.PadRight(9);
-                var padTitle = movie.Title.PadRight(128);
+                var padTitle = movie.Title[..Math.Min(movie.Title.Length, 50)].PadRight(50);
                 var padReleaseDate = movie.ReleaseDate.ToString("MM-dd-yyyy").PadRight(10);
-                var padPopularity = movie.Popularity.ToString("0.0000").PadRight(10);
+                var padPopularity = movie.Popularity.ToString("0.000").PadRight(6);
                 sb.AppendLine($"{padTmdbId}{padImdbId}{padTitle}{padReleaseDate}{padPopularity}");
 
                 Console.WriteLine($"Exported {movie.Title}");
